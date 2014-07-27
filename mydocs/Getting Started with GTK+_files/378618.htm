@@ -1,0 +1,57 @@
+
+<!-- saved from url=(0031)http://rc.rlcdn.com/378618.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="load.js"></script><script type="text/javascript">
+var anas = [4298,4548];
+var curCall = 0;
+var stop = 0;
+function loadNextPixel() {
+  if(curCall < anas.length && stop == 0) {
+    loadPixel(anas[curCall], curCall + 1);
+    curCall++;
+  }
+};
+function loadPixel(anaId, n) {
+  var elem = document.createElement('img');
+  if (elem.addEventListener) {
+    elem.addEventListener('load',loadNextPixel,false);
+    elem.addEventListener('error',loadNextPixel,false);
+  } else if (elem.attachEvent) {
+    elem.attachEvent('onload',loadNextPixel);
+    elem.attachEvent('onerror',loadNextPixel);
+  }
+  elem.border = '0';
+  elem.hspace = '0';
+  elem.vspace = '0';
+  elem.width = '1';
+  elem.height = '1';
+  elem.src = 'http://rc.rlcdn.com/378618.gif?n=' + n + '&ana=' + anaId;
+  document.body.appendChild(elem);
+};
+function extraCalls() {
+  loadNextPixel();
+  loadNextPixel();
+  loadNextPixel();
+  loadNextPixel();
+  loadNextPixel();
+}
+function stopCalls() {
+  stop = 1;
+}
+function extraCallsWithTimeout() {
+  window.setTimeout('extraCalls()',500);
+}
+if (window.addEventListener) {
+  window.addEventListener('load',extraCallsWithTimeout,false);
+} else if (window.attachEvent) {
+  window.attachEvent('onload',extraCallsWithTimeout);
+}
+</script><script src="Script(1).ashx"></script></head>
+<body><img border="0" hspace="0" vspace="0" width="1" height="1" src="2035">
+
+<img border="0" hspace="0" vspace="0" width="1" height="1" src="px">
+
+<img border="0" hspace="0" vspace="0" width="1" height="1" src="s.gif">
+
+<img border="0" hspace="0" vspace="0" width="1" height="1" src="push">
+
+<img border="0" hspace="0" vspace="0" width="1" height="1" src="GenericUserSync.ashx"><img border="0" hspace="0" vspace="0" width="1" height="1" src="378618.gif"><img border="0" hspace="0" vspace="0" width="1" height="1" src="378618(1).gif"></body></html>

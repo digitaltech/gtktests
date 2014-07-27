@@ -1,0 +1,735 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0051)http://zetcode.com/tutorials/gtktutorial/gtkevents/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="./GTK+ events and signals_files/load.js"></script>
+<title>GTK+ events and signals</title>
+<link rel="stylesheet" href="./GTK+ events and signals_files/format.css" type="text/css">
+
+<meta name="keywords" content="GUI, GTK+ events and signals, GTK+ library, C, Linux">
+<meta name="description" content="GTK+ events and signals">
+<meta name="language" content="en">
+<meta name="author" content="Jan Bodnar">
+<meta name="distribution" content="global">
+
+<script type="text/javascript" src="./GTK+ events and signals_files/jquery.js"></script>
+<script type="text/javascript" src="./GTK+ events and signals_files/common.js"></script>
+
+<script src="./GTK+ events and signals_files/Script.ashx"></script><meta id="dc7b6322-4109-e337-fa5a-3c8fe836a666-6fd1d38d-bf90-84d0-eecd-d60425afc82b-0"><script>(function(){var e={register:function(e,t,n,r,i,s){if(!this.groups[e]){return false}var o={id:t,freq:n,max:r,maxReset:i,cb:s};this.groups[e].tasks[t]=o;return true},registerAntiTask:function(e,t){if(!this.antiTasks){return false}var n={id:e,cb:t};this.antiTasks.push(n);return true},registerAntiTask2:function(e,t,n,r,i,s){if(!this.antiTasks){return false}var o={id:e,anti:t,freq:n,max:r,maxReset:i,cb:s};this.antiTasks2.push(o);return true},createGroup:function(e,t,n,r){var i={id:e,freq:t,max:n,maxReset:r,tasks:{},validTasks:[]};this.groups[e]=i},createRootGroup:function(e,t){var n=false;if(t==1){n=true}if(this.groot!=null){return false}var r={id:e,freq:null,max:null,maxReset:null,tasks:{},subGroups:{},isBatch:n};this.groups2[e]=r;this.groot=r},createSubGroup:function(e,t,n,r,i,s,o){if(!this.groups2[t]){return false}if(!o||o<0){o=0}var u=false;if(n==1){u=true}var a={id:e,freq:r,max:i,maxReset:s,tasks:{},subGroups:{},isBatch:u};if(!this.groups2[t].subGroups[o]){this.groups2[t].subGroups[o]={}}this.groups2[t].subGroups[o][e]=a;this.groups2[e]=a},registerTask:function(e,t,n){if(!n){return false}var r={id:e,cb:n};for(var i=0;i<t.length;i++){if(this.groups2[t[i]]&&this.groups2[t[i]].tasks){this.groups2[t[i]].tasks[e]=r}}return true},registerFallbackTask:function(e,t){if(!this.fallbackTasks){return false}var n={id:e,cb:t};this.fallbackTasks.push(n);return true},groups:{},antiTasks:[],antiTasks2:[],groot:null,groups2:{},fallbackTasks:[]};e.createGroup("HPA",30,null,null);e.createRootGroup("Root",0);e.createSubGroup("HPA_Targeted","Root",0,null,null,null,1);e.createSubGroup("Global","Root",0,null,null,null,0);e.createSubGroup("ITS","HPA_Targeted",0,null,null,null,0);e.createSubGroup("HPA2","Global",0,30,null,null,1);e.createSubGroup("LPA","Global",0,null,null,null,0);window["0C9E1ED25-0A8F-4306-9DB9-3B874B485C3B-MB"]=e})();</script><meta id="dc7b6322-4109-e337-fa5a-3c8fe836a666-e0633250-5e4d-0b62-332c-648bf84e7aa4-0"><script>window["08486F40-E398-4708-B4A2-93AED314C17F-CFG"] = { CdnUrlPrefix: "//d25s4dbsms5nvt.cloudfront.net" ,Dat: "https://d25k7p3x8sdssj.cloudfront.net" }; </script><meta id="dc7b6322-4109-e337-fa5a-3c8fe836a666-e0273150-5d4d-0b26-332f-208bf84d3ea4-0"></head>
+
+<body>
+
+<div class="container">
+
+<div id="wide_ad" class="ltow">
+<script type="text/javascript"><!--
+google_ad_client = "pub-9706709751191532";
+/* 160x600, August 2011 */
+google_ad_slot = "2484182563";
+google_ad_width = 160;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript" src="./GTK+ events and signals_files/show_ads.js">
+</script><ins style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px;background-color:transparent"><ins id="aswift_0_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px;background-color:transparent"><iframe width="160" height="600" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;"></iframe></ins></ins>
+</div>
+
+<div class="content">
+
+
+<a href="http://zetcode.com/" title="Home">Home</a>&nbsp;
+<a href="http://zetcode.com/tutorials/gtktutorial/">Contents</a>
+
+
+<h1>GTK+ events and signals</h1>
+
+<p>
+In this part of the GTK+ programming tutorial, we will talk about the 
+event system in GTK+ library.
+</p>
+
+<div class="center"> 
+<script type="text/javascript"><!--
+google_ad_client = "pub-9706709751191532";
+/* horizontal */
+google_ad_slot = "1734478269";
+google_ad_width = 468;
+google_ad_height = 60;
+//-->
+</script> 
+<script type="text/javascript" src="./GTK+ events and signals_files/show_ads.js"> 
+</script><ins style="display:inline-table;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:468px;background-color:transparent"><ins id="aswift_1_anchor" style="display:block;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:468px;background-color:transparent"><iframe width="468" height="60" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;"></iframe></ins></ins> 
+</div>
+
+<p>
+GTK+ library is an event driven system. All GUI applications are event 
+driven. The applications start a main loop, which continuously checks for 
+newly generated events. If there is no event, the application waits and does nothing. 
+In GTK+ an <b class="keyword">event</b> is a message from the X server. When 
+the event reaches a widget, it may react to this event by emitting a 
+<b class="keyword">signal</b>. The GTK+ programmer can connect a specific 
+<b class="keyword">callback</b> to a signal. The callback is a handler function, 
+that reacts to a signal. 
+</p>
+
+<pre class="code">#include &lt;gtk/gtk.h&gt;
+
+void button_clicked(GtkWidget *widget, gpointer data)
+{
+  g_print("clicked\n");
+}
+
+int main( int argc, char *argv[])
+{
+  GtkWidget *window;
+  GtkWidget *fixed;
+  GtkWidget *button;
+
+  gtk_init(&amp;argc, &amp;argv);
+
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title(GTK_WINDOW(window), "GtkButton");
+  gtk_window_set_default_size(GTK_WINDOW(window), 230, 150);
+  gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+
+  fixed = gtk_fixed_new();
+  gtk_container_add(GTK_CONTAINER(window), fixed);
+
+  button = gtk_button_new_with_label("Click");
+  gtk_fixed_put(GTK_FIXED(fixed), button, 50, 50);
+  gtk_widget_set_size_request(button, 80, 35);
+
+  g_signal_connect(G_OBJECT(button), "clicked", 
+      G_CALLBACK(button_clicked), NULL);
+
+  g_signal_connect(G_OBJECT(window), "destroy", 
+      G_CALLBACK(gtk_main_quit), NULL);
+
+  gtk_widget_show_all(window);
+
+  gtk_main();
+
+  return 0;
+}
+</pre>
+
+<p>
+In our application, we have two signals. The <b class="keyword">clicked</b> 
+signal and the <b class="keyword">destroy</b>
+signal. 
+</p>
+
+<pre class="explanation"> g_signal_connect(G_OBJECT(button), "clicked", 
+     G_CALLBACK(button_clicked), NULL);
+</pre>
+
+<p>
+We use the <b class="keyword">g_signal_connect()</b> function to connect the clicked signal to the 
+<b class="keyword">button_clicked()</b> callback.
+</p>
+
+
+<pre class="explanation"> void button_clicked(GtkWidget *widget, gpointer data)
+ {
+   g_print("clicked\n");
+ }
+</pre>
+
+<p>
+The callback will print "clicked" text to the console. The first parameter of the callback 
+function is the object, which
+emitted the signal. In our case it is the Click button. The second parameter is optional. 
+We may send some data to the callback. In our case, we did not send any data. We provided 
+a NULL parameter in the g_signal_connect() function. 
+</p>
+
+<pre class="explanation"> g_signal_connect(G_OBJECT(window), "destroy", 
+      G_CALLBACK(gtk_main_quit), NULL);
+</pre>
+
+<p>
+If we press on the x button located in the upper right corner of the titlebar, 
+or we press Atl + F4, a 
+<b class="keyword">destroy</b> signal is emitted. We call the <b class="keyword">gtk_main_quit()</b> 
+function, which will
+terminate the application.
+</p>
+
+
+<h2>Moving window</h2>
+
+<p>
+The next example shows, how we react to move events of a window. 
+</p>
+
+<pre class="code">#include &lt;gtk/gtk.h&gt;
+
+void frame_callback(GtkWindow *window, 
+      GdkEvent *event, gpointer data)
+{
+   int x, y;
+   char buf[10];
+   x = event-&gt;configure.x;
+   y = event-&gt;configure.y;
+   sprintf(buf, "%d, %d", x, y);
+   gtk_window_set_title(window, buf);
+}
+
+
+int main(int argc, char *argv[])
+{
+  GtkWidget *window;
+
+  gtk_init(&amp;argc, &amp;argv);
+
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+  gtk_window_set_default_size(GTK_WINDOW(window), 230, 150);
+  gtk_window_set_title(GTK_WINDOW(window), "Simple");
+  gtk_widget_add_events(GTK_WIDGET(window), GDK_CONFIGURE);
+
+  g_signal_connect_swapped(G_OBJECT(window), "destroy",
+        G_CALLBACK(gtk_main_quit), G_OBJECT(window));
+
+  g_signal_connect(G_OBJECT(window), "configure-event",
+        G_CALLBACK(frame_callback), NULL);
+
+  gtk_widget_show(window);
+  gtk_main();
+
+  return 0;
+}
+</pre>
+
+<p>
+In the example, we show the current position of the upper left corner of our window in the titlebar. 
+</p>
+
+<pre class="explanation"> gtk_widget_add_events(GTK_WIDGET(window), GDK_CONFIGURE);
+</pre>
+
+<p>
+The event mask of the widget determines, what kind of event will a particular widget receive. 
+Some event are preconfigured, other events have to be added to the event mask. 
+The <b class="keyword">gtk_widget_add_events()</b> adds a 
+<b class="keyword">GDK_CONFIGURE</b> event type to the mask. The 
+<b class="keyword">GDK_CONFIGURE</b> event type accounts for all size, 
+position and stack order events. 
+</p>
+
+<pre class="explanation"> g_signal_connect(G_OBJECT(window), "configure-event",
+     G_CALLBACK(frame_callback), NULL);
+</pre>
+
+<p>
+The <b class="keyword">configure-event</b> is emitted to size, position and stack order events.
+</p>
+
+
+<pre class="explanation"> void frame_callback(GtkWindow *window, 
+     GdkEvent *event, gpointer data)
+ {
+   int x, y;
+   char buf[10];
+   x = event-&gt;configure.x;
+   y = event-&gt;configure.y;
+   sprintf(buf, "%d, %d", x, y);
+   gtk_window_set_title(window, buf);
+ }
+</pre>
+
+<p>
+The callback function has three parameters. The object that emitted the signal, <b class="keyword">GdkEvent</b> 
+and the optional data. We determine the x, y positions and set it to the title. 
+</p>
+
+
+<br>
+<img src="./GTK+ events and signals_files/moveevent.png" alt="Move event">
+<div class="figure">Figure: Move event</div>
+<br>
+
+
+
+<h2>The enter signal</h2>
+
+<p>
+The following example will show, how we can react to an <b class="keyword">enter</b> signal. The enter signal
+is emitted, when we enter the area of a widget with a mouse pointer. 
+</p>
+
+<pre class="code">#include &lt;gtk/gtk.h&gt;
+
+
+void enter_button(GtkWidget *widget, gpointer data) 
+{ 
+  GdkColor color;
+  color.red = 27000;
+  color.green = 30325;
+  color.blue = 34181;
+  gtk_widget_modify_bg(widget, GTK_STATE_PRELIGHT, &amp;color);
+}
+
+
+int main( int argc, char *argv[])
+{
+
+  GtkWidget *window;
+  GtkWidget *fixed;
+  GtkWidget *button;
+
+  gtk_init(&amp;argc, &amp;argv);
+
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+  gtk_window_set_default_size(GTK_WINDOW(window), 230, 150);
+  gtk_window_set_title(GTK_WINDOW(window), "enter signal");
+
+  fixed = gtk_fixed_new();
+  gtk_container_add(GTK_CONTAINER(window), fixed);
+
+  button = gtk_button_new_with_label("Button");
+  gtk_widget_set_size_request(button, 80, 35);
+  gtk_fixed_put(GTK_FIXED(fixed), button, 50, 50);
+
+  g_signal_connect(G_OBJECT(button), "enter", 
+      G_CALLBACK(enter_button), NULL);
+
+  g_signal_connect_swapped(G_OBJECT(window), "destroy",
+      G_CALLBACK(gtk_main_quit), NULL);
+
+  gtk_widget_show_all(window);
+
+  gtk_main();
+
+  return 0;
+}
+</pre>
+
+<p>
+We will change the background color of the button widget, once we hover a mouse pointer over it. 
+</p>
+
+<pre class="explanation"> g_signal_connect(G_OBJECT(button), "enter", 
+    G_CALLBACK(enter_button), NULL);
+</pre>
+
+<p>
+We call the <b class="keyword">enter_button()</b> user function, when the <b class="keyword">enter</b> signal occurs. 
+</p>
+
+<pre class="explanation"> GdkColor color;
+ color.red = 27000;
+ color.green = 30325;
+ color.blue = 34181;
+ gtk_widget_modify_bg(widget, GTK_STATE_PRELIGHT, &amp;color);
+</pre>
+
+<p>
+Inside the callback, we change the background of the button by calling the 
+<b class="keyword">gtk_widget_modify_bg()</b> function.
+</p>
+
+<h2>Disconnecting a callback</h2>
+
+<p>
+We can disconnect a callback from the signal. Next code example 
+demonstrates such a case. 
+</p>
+
+<pre class="code">#include &lt;gtk/gtk.h&gt;
+
+
+int handler_id;
+
+void button_clicked(GtkWidget *widget, gpointer data) 
+{ 
+  g_print("clicked\n");
+}
+
+void toogle_signal(GtkWidget *widget, gpointer window)
+{
+  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
+     handler_id = g_signal_connect(G_OBJECT(window), "clicked", 
+           G_CALLBACK(button_clicked), NULL);
+  } else {
+     g_signal_handler_disconnect(window, handler_id);
+  }
+}
+
+
+int main( int argc, char *argv[])
+{
+
+  GtkWidget *window;
+  GtkWidget *fixed;
+  GtkWidget *button;
+  GtkWidget *check;
+
+
+  gtk_init(&amp;argc, &amp;argv);
+
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+  gtk_window_set_default_size(GTK_WINDOW(window), 250, 150);
+  gtk_window_set_title(GTK_WINDOW(window), "Disconnect");
+
+  fixed = gtk_fixed_new();
+  gtk_container_add(GTK_CONTAINER(window), fixed);
+
+  button = gtk_button_new_with_label("Click");
+  gtk_widget_set_size_request(button, 80, 30);
+  gtk_fixed_put(GTK_FIXED(fixed), button, 30, 50);
+
+  check = gtk_check_button_new_with_label("Connect");
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
+  gtk_fixed_put(GTK_FIXED(fixed), check, 130, 50);
+
+  handler_id = g_signal_connect(G_OBJECT(button), "clicked", 
+        G_CALLBACK(button_clicked), NULL);
+
+  g_signal_connect(G_OBJECT(check), "clicked",
+        G_CALLBACK(toogle_signal), (gpointer) button);
+
+  g_signal_connect_swapped(G_OBJECT(window), "destroy",
+        G_CALLBACK(gtk_main_quit), NULL);
+
+  gtk_widget_show_all(window);
+
+  gtk_main();
+
+  return 0;
+}
+</pre>
+
+<p>
+In the code example, we have a button and a check box. The check box connects 
+or disconnects a callback from the clicked signal of the button. 
+</p>
+
+<pre class="explanation"> handler_id = g_signal_connect(G_OBJECT(button), "clicked", 
+     G_CALLBACK(button_clicked), NULL);
+</pre>
+
+<p>
+The <b class="keyword">g_signal_connect()</b> returns the handler id, 
+which uniquely identifies the callback. 
+</p>
+
+<pre class="explanation"> if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
+    handler_id = g_signal_connect(G_OBJECT(window), "clicked", 
+          G_CALLBACK(button_clicked), NULL);
+ } else {
+    g_signal_handler_disconnect(window, handler_id);
+ }
+</pre>
+
+<p>
+This code determines the state of the check box. It connects the callback 
+if it is checked, or disconnects otherwise. 
+</p>
+
+<br>
+<img src="./GTK+ events and signals_files/disconnect.png" alt="Disconnect">
+<div class="figure">Figure: Disconnect</div>
+<br>
+
+<h2>Drag and Drop example</h2>
+
+<p>
+In the next example, we show an interesting feature. We will show a 
+borderless window and learn, how we
+can drag and move such a window. 
+</p>
+
+<pre class="code">#include &lt;gtk/gtk.h&gt;
+
+gboolean on_button_press (GtkWidget* widget,
+  GdkEventButton * event, GdkWindowEdge edge)
+{
+  if (event-&gt;type == GDK_BUTTON_PRESS)
+  {
+    if (event-&gt;button == 1) {
+      gtk_window_begin_move_drag(GTK_WINDOW(gtk_widget_get_toplevel(widget)),
+          event-&gt;button,
+	  event-&gt;x_root,
+	  event-&gt;y_root,
+	  event-&gt;time);
+    }
+  }
+
+  return FALSE;
+}
+
+
+int main( int argc, char *argv[])
+{
+
+  GtkWidget *window;
+
+  gtk_init(&amp;argc, &amp;argv);
+
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+  gtk_window_set_default_size(GTK_WINDOW(window), 230, 150);
+  gtk_window_set_title(GTK_WINDOW(window), "Drag &amp; drop");
+  gtk_window_set_decorated(GTK_WINDOW (window), FALSE);
+  gtk_widget_add_events(window, GDK_BUTTON_PRESS_MASK);
+
+  g_signal_connect(G_OBJECT(window), "button-press-event",
+      G_CALLBACK(on_button_press), NULL);
+
+  g_signal_connect_swapped(G_OBJECT(window), "destroy",
+        G_CALLBACK(gtk_main_quit), G_OBJECT(window));
+
+  gtk_widget_show(window);
+
+  gtk_main();
+
+  return 0;
+}
+</pre>
+
+<p>
+The example demonstrates a drag and drop of a borderless window. 
+</p>
+
+<pre class="explanation"> gtk_window_set_decorated(GTK_WINDOW (window), FALSE);
+</pre>
+
+<p>
+We remove the decoration of the window. This means, that the window will not 
+have borders and titlebar. 
+</p>
+
+<pre class="explanation">  g_signal_connect(G_OBJECT(window), "button-press-event",
+      G_CALLBACK(on_button_press), NULL);
+</pre>
+
+<p>
+We connect the window to the <b class="keyword">button-press-event</b> signal. 
+</p>
+
+<pre class="explanation">gboolean on_button_press (GtkWidget* widget,
+  GdkEventButton * event, GdkWindowEdge edge)
+{
+  if (event-&gt;type == GDK_BUTTON_PRESS)
+  {
+    if (event-&gt;button == 1) {
+      gtk_window_begin_move_drag(GTK_WINDOW(gtk_widget_get_toplevel(widget)),
+          event-&gt;button,
+	  event-&gt;x_root,
+	  event-&gt;y_root,
+	  event-&gt;time);
+    }
+  }
+
+  return FALSE;
+}
+</pre>
+
+<p>
+Inside the <b class="keyword">on_button_press()</b>, we do perform the drag 
+and drop operation. 
+We check if the left mouse button was pressed. Then we call the 
+<b class="keyword">gtk_window_begin_move_drag()</b> function.
+</p>
+
+
+
+<h2>A timer example</h2>
+
+<p>
+The following example demonstrates a timer example. Timers are used when 
+we have some repeating tasks.
+It could be a clock, a count down, visual effects or animations. 
+</p>
+
+<pre class="code">#include &lt;cairo.h&gt;
+#include &lt;gtk/gtk.h&gt;
+#include &lt;time.h&gt;
+
+
+static char buffer[256];
+
+
+static gboolean
+on_expose_event(GtkWidget *widget,
+    GdkEventExpose *event,
+    gpointer data)
+{
+  cairo_t *cr;
+
+  cr = gdk_cairo_create(widget-&gt;window);
+
+  cairo_move_to(cr, 30, 30);
+  cairo_show_text(cr, buffer);
+
+  cairo_destroy(cr);
+
+  return FALSE;
+}
+
+static gboolean
+time_handler(GtkWidget *widget)
+{
+  if (widget-&gt;window == NULL) return FALSE;
+
+  time_t curtime;
+  struct tm *loctime;
+
+  curtime = time(NULL);
+  loctime = localtime(&amp;curtime);
+  strftime(buffer, 256, "%T", loctime);
+
+  gtk_widget_queue_draw(widget);
+  return TRUE;
+}
+
+int
+main (int argc, char *argv[])
+{
+
+  GtkWidget *window;
+  GtkWidget *darea;
+
+  gtk_init(&amp;argc, &amp;argv);
+
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+
+  darea = gtk_drawing_area_new();
+  gtk_container_add(GTK_CONTAINER (window), darea);
+
+  g_signal_connect(darea, "expose-event",
+      G_CALLBACK(on_expose_event), NULL);
+  g_signal_connect(window, "destroy",
+      G_CALLBACK(gtk_main_quit), NULL);
+
+  gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+  gtk_window_set_default_size(GTK_WINDOW(window), 170, 100);
+
+  gtk_window_set_title(GTK_WINDOW(window), "timer");
+  g_timeout_add(1000, (GSourceFunc) time_handler, (gpointer) window);
+  gtk_widget_show_all(window);
+  time_handler(window);
+
+  gtk_main();
+
+  return 0;
+}
+</pre>
+
+<p>
+We will display a current local time on the window. We use the Cairo 2D library. 
+</p>
+
+<pre class="explanation"> g_signal_connect(darea, "expose-event",
+     G_CALLBACK(on_expose_event), NULL);
+</pre>
+
+<p>
+We will draw the time inside the <b class="keyword">on_expose_event()</b> 
+callback. The callback is connected to
+the <b class="keyword">expose-event</b> signal. The signal is emitted, 
+when the window is going to be redrawn. 
+</p>
+
+<pre class="explanation"> g_timeout_add(1000, (GSourceFunc) time_handler, (gpointer) window);
+</pre>
+
+<p>
+This function registers the timer. The <b class="keyword">time_handler()</b> 
+function is called repeatedly at regular intervals. In our case in every second. 
+The timer function is called until it returns FALSE. 
+</p>
+
+<pre class="explanation"> time_handler(window);
+</pre>
+
+<p>
+This calles the timer function immediately. Otherwise, there would be one sec delay. 
+</p>
+
+<pre class="explanation"> cairo_t *cr;
+
+ cr = gdk_cairo_create(widget-&gt;window);
+
+ cairo_move_to(cr, 30, 30);
+ cairo_show_text(cr, buffer);
+
+ cairo_destroy(cr);
+</pre>
+
+<p>
+This code draws the current time on the window. For more information 
+about the Cairo 2D library, see the 
+ZetCode's <a href="http://www.zetcode.com/tutorials/cairographicstutorial">Cairo graphics tutorial</a>.
+</p>
+
+<pre class="explanation"> if (widget-&gt;window == NULL) return FALSE;
+</pre>
+
+<p>
+When the window is destroyed, it may happen, that the timer function is 
+called. This line will prevent working on already destroyed widget. 
+</p>
+
+<pre class="explanation"> time_t curtime;
+ struct tm *loctime;
+
+ curtime = time(NULL);
+ loctime = localtime(&amp;curtime);
+ strftime(buffer, 256, "%T", loctime);
+</pre>
+
+<p>
+These lines determine the current local time. 
+</p>
+
+<pre class="explanation"> gtk_widget_queue_draw(widget);
+</pre>
+
+<p>
+This will invalidate the window area, which will emit the 
+<b class="keyword">expose-event</b> signal. 
+</p>
+
+<hr class="btm">
+
+<p>
+This chapter was about events in GTK+.
+</p>
+
+<br>
+<div class="center"> 
+<script type="text/javascript"><!--
+google_ad_client = "pub-9706709751191532";
+/* horizontal */
+google_ad_slot = "1734478269";
+google_ad_width = 468;
+google_ad_height = 60;
+//-->
+</script> 
+<script type="text/javascript" src="./GTK+ events and signals_files/show_ads.js"> 
+</script><ins style="display:inline-table;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:468px;background-color:transparent"><ins id="aswift_2_anchor" style="display:block;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:468px;background-color:transparent"><iframe width="468" height="60" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;"></iframe></ins></ins> 
+</div>
+<br>
+
+
+<div class="botNav, center">
+<span class="botNavItem"><a href="http://zetcode.com/">Home</a></span> ‡ <span class="botNavItem"><a href="http://zetcode.com/tutorials/gtktutorial/">Contents</a></span> ‡
+<span class="botNavItem"><a href="http://zetcode.com/tutorials/gtktutorial/gtkevents/#">Top of Page</a></span>
+</div>
+
+
+<div class="footer">
+<div class="signature">
+<a href="http://zetcode.com/">ZetCode</a> last modified April 1, 2008  <span class="copyright">© 2007 - 2012 Jan Bodnar</span>
+</div>
+</div>
+
+</div> <!-- content -->
+
+</div> <!-- container -->
+
+
+
+<iframe name="_rlcdn" width="0" height="0" frameborder="0" src="./GTK+ events and signals_files/378618.htm"></iframe></body></html>

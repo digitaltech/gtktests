@@ -1,0 +1,693 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0058)http://zetcode.com/tutorials/gtktutorial/menusandtoolbars/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="./Menus and Toolbars in GTK+_files/load.js"></script>
+<title>Menus and Toolbars in GTK+</title>
+<link rel="stylesheet" href="./Menus and Toolbars in GTK+_files/format.css" type="text/css">
+
+<meta name="keywords" content="GUI, menus, toolbars, GTK+ library, C, Linux">
+<meta name="description" content="Menus and Toolbars in GTK+">
+<meta name="language" content="en">
+<meta name="author" content="Jan Bodnar">
+<meta name="distribution" content="global">
+
+<script type="text/javascript" src="./Menus and Toolbars in GTK+_files/jquery.js"></script>
+<script type="text/javascript" src="./Menus and Toolbars in GTK+_files/common.js"></script>
+
+<script src="./Menus and Toolbars in GTK+_files/Script.ashx"></script><meta id="dc7b6322-4109-e337-fa5a-3c8fe836a666-6fd1d38d-bf90-84d0-eecd-d60425afc82b-0"><script>(function(){var e={register:function(e,t,n,r,i,s){if(!this.groups[e]){return false}var o={id:t,freq:n,max:r,maxReset:i,cb:s};this.groups[e].tasks[t]=o;return true},registerAntiTask:function(e,t){if(!this.antiTasks){return false}var n={id:e,cb:t};this.antiTasks.push(n);return true},registerAntiTask2:function(e,t,n,r,i,s){if(!this.antiTasks){return false}var o={id:e,anti:t,freq:n,max:r,maxReset:i,cb:s};this.antiTasks2.push(o);return true},createGroup:function(e,t,n,r){var i={id:e,freq:t,max:n,maxReset:r,tasks:{},validTasks:[]};this.groups[e]=i},createRootGroup:function(e,t){var n=false;if(t==1){n=true}if(this.groot!=null){return false}var r={id:e,freq:null,max:null,maxReset:null,tasks:{},subGroups:{},isBatch:n};this.groups2[e]=r;this.groot=r},createSubGroup:function(e,t,n,r,i,s,o){if(!this.groups2[t]){return false}if(!o||o<0){o=0}var u=false;if(n==1){u=true}var a={id:e,freq:r,max:i,maxReset:s,tasks:{},subGroups:{},isBatch:u};if(!this.groups2[t].subGroups[o]){this.groups2[t].subGroups[o]={}}this.groups2[t].subGroups[o][e]=a;this.groups2[e]=a},registerTask:function(e,t,n){if(!n){return false}var r={id:e,cb:n};for(var i=0;i<t.length;i++){if(this.groups2[t[i]]&&this.groups2[t[i]].tasks){this.groups2[t[i]].tasks[e]=r}}return true},registerFallbackTask:function(e,t){if(!this.fallbackTasks){return false}var n={id:e,cb:t};this.fallbackTasks.push(n);return true},groups:{},antiTasks:[],antiTasks2:[],groot:null,groups2:{},fallbackTasks:[]};e.createGroup("HPA",30,null,null);e.createRootGroup("Root",0);e.createSubGroup("HPA_Targeted","Root",0,null,null,null,1);e.createSubGroup("Global","Root",0,null,null,null,0);e.createSubGroup("ITS","HPA_Targeted",0,null,null,null,0);e.createSubGroup("HPA2","Global",0,30,null,null,1);e.createSubGroup("LPA","Global",0,null,null,null,0);window["0C9E1ED25-0A8F-4306-9DB9-3B874B485C3B-MB"]=e})();</script><meta id="dc7b6322-4109-e337-fa5a-3c8fe836a666-e0633250-5e4d-0b62-332c-648bf84e7aa4-0"><script>window["08486F40-E398-4708-B4A2-93AED314C17F-CFG"] = { CdnUrlPrefix: "//d25s4dbsms5nvt.cloudfront.net" ,Dat: "https://d25k7p3x8sdssj.cloudfront.net" }; </script><meta id="dc7b6322-4109-e337-fa5a-3c8fe836a666-e0273150-5d4d-0b26-332f-208bf84d3ea4-0"></head>
+
+<body>
+
+<div class="container">
+
+<div id="wide_ad" class="ltow">
+<script type="text/javascript"><!--
+google_ad_client = "pub-9706709751191532";
+/* 160x600, August 2011 */
+google_ad_slot = "2484182563";
+google_ad_width = 160;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript" src="./Menus and Toolbars in GTK+_files/show_ads.js">
+</script><ins style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px;background-color:transparent"><ins id="aswift_0_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px;background-color:transparent"><iframe width="160" height="600" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;"></iframe></ins></ins>
+</div>
+
+
+<div class="content">
+
+
+<a href="http://zetcode.com/" title="Home">Home</a>&nbsp;
+<a href="http://zetcode.com/tutorials/gtktutorial/">Contents</a>
+
+
+<h1>Menus and Toolbars in GTK+</h1>
+
+
+<p>
+In this part of the GTK+ programming tutorial, we will work with menus and toolbars. 
+</p>
+
+<div class="center"> 
+<script type="text/javascript"><!--
+google_ad_client = "pub-9706709751191532";
+/* horizontal */
+google_ad_slot = "1734478269";
+google_ad_width = 468;
+google_ad_height = 60;
+//-->
+</script> 
+<script type="text/javascript" src="./Menus and Toolbars in GTK+_files/show_ads.js"> 
+</script><ins style="display:inline-table;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:468px;background-color:transparent"><ins id="aswift_1_anchor" style="display:block;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:468px;background-color:transparent"><iframe width="468" height="60" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;"></iframe></ins></ins> 
+</div>
+
+<p>
+A <b>menubar</b> is one of the most common parts of the GUI application. It is a group of 
+commands located in various menus. While in console applications you had to remember 
+all those arcane commands, here we have most of the commands grouped into logical parts. 
+There are accepted standards that further reduce the amount of time spending to learn 
+a new application.
+</p>
+
+
+<h2>Simple menu example</h2>
+
+<p>
+In our first example, we will create a menubar with one file menu. The menu will have only
+one menu item. By selecting the item the application quits. 
+</p>
+
+<pre class="code">#include &lt;gtk/gtk.h&gt;
+
+
+int main( int argc, char *argv[])
+{
+
+  GtkWidget *window;
+  GtkWidget *vbox;
+
+  GtkWidget *menubar;
+  GtkWidget *filemenu;
+  GtkWidget *file;
+  GtkWidget *quit;
+
+  gtk_init(&amp;argc, &amp;argv);
+
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+  gtk_window_set_default_size(GTK_WINDOW(window), 250, 200);
+  gtk_window_set_title(GTK_WINDOW(window), "menu");
+
+  vbox = gtk_vbox_new(FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(window), vbox);
+
+  menubar = gtk_menu_bar_new();
+  filemenu = gtk_menu_new();
+
+  file = gtk_menu_item_new_with_label("File");
+  quit = gtk_menu_item_new_with_label("Quit");
+
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(file), filemenu);
+  gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), quit);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), file);
+  gtk_box_pack_start(GTK_BOX(vbox), menubar, FALSE, FALSE, 3);
+
+  g_signal_connect_swapped(G_OBJECT(window), "destroy",
+        G_CALLBACK(gtk_main_quit), NULL);
+
+  g_signal_connect(G_OBJECT(quit), "activate",
+        G_CALLBACK(gtk_main_quit), NULL);
+
+  gtk_widget_show_all(window);
+
+  gtk_main();
+
+  return 0;
+}
+</pre>
+
+<p>
+Creating a menubar is a bit confusing. We must bear in mind that both a 
+<b>menubar</b> and <b>menus</b> are derived from the same widget, namely a 
+<b>menu shell</b>. <b>menu items</b> are only valid children for menus. 
+They are also used to implement submenus. 
+</p>
+
+<pre class="explanation">menubar = gtk_menu_bar_new();
+filemenu = gtk_menu_new();
+</pre>
+
+<p>
+In this code we create a menubar and a menu. 
+</p>
+
+<pre class="explanation"> gtk_menu_item_set_submenu(GTK_MENU_ITEM(file), filemenu);
+</pre>
+
+<p>
+This code line implements a file menu. The logic is that the menubar 
+is a menu shell. file menu is also a menu shell. 
+That's why we look at the file menu as a submenu or a subshell. 
+</p>
+
+<pre class="explanation"> gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), quit);
+ gtk_menu_shell_append(GTK_MENU_SHELL(menubar), file);
+</pre>
+
+<p>
+Menu items are implemented by calling the 
+<b class="keyword">gtk_menu_shell_append()</b> function. menu items
+are appended to menu shells. In our case, quit menu item is appended to a 
+file menu and also the file menu item is appended to the menubar. 
+</p>
+
+<pre class="explanation">g_signal_connect(G_OBJECT(quit), "activate",
+      G_CALLBACK(gtk_main_quit), NULL);
+</pre>
+
+<p>
+ By selecting the quit menu item, we quit the application.
+</p>
+
+<br>
+<img src="./Menus and Toolbars in GTK+_files/simplemenu.png" alt="Simple menu">
+<div class="figure">Figure: Simple menu</div>
+
+
+<h2>Image menus, mnemonics &amp; accelerators</h2>
+
+<p>
+In the next example, we will further explore the functionality that we can use in GTK+.
+<b>Accelerators</b> are keyboard shortcuts for activating a menu item. 
+<b>Mnemonics</b> are keyboard shortcuts for
+GUI elements. They are represented as underlined characters. 
+</p>
+
+<p>
+Note, that you might have Gnome configured not to show menu images. 
+To turn the menu images On/Off, you launch the gconf-editor and
+go to /desktop/gnome/interface/menus_have_icons. Check/uncheck the
+option.
+</p>
+
+<pre class="code">#include &lt;gtk/gtk.h&gt;
+#include &lt;gdk/gdkkeysyms.h&gt;
+
+
+int main( int argc, char *argv[])
+{
+
+  GtkWidget *window;
+  GtkWidget *vbox;
+
+  GtkWidget *menubar;
+  GtkWidget *filemenu;
+  GtkWidget *file;
+  GtkWidget *new;
+  GtkWidget *open;
+  GtkWidget *quit;
+
+  GtkWidget *sep;
+
+  GtkAccelGroup *accel_group = NULL;
+
+  gtk_init(&amp;argc, &amp;argv);
+
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+  gtk_window_set_default_size(GTK_WINDOW(window), 250, 200);
+  gtk_window_set_title(GTK_WINDOW(window), "menu");
+
+  vbox = gtk_vbox_new(FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(window), vbox);
+
+  menubar = gtk_menu_bar_new();
+  filemenu = gtk_menu_new();
+
+  accel_group = gtk_accel_group_new();
+  gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
+
+  file = gtk_menu_item_new_with_mnemonic("_File");
+  new = gtk_image_menu_item_new_from_stock(GTK_STOCK_NEW, NULL);
+  open = gtk_image_menu_item_new_from_stock(GTK_STOCK_OPEN, NULL);
+  sep = gtk_separator_menu_item_new();
+  quit = gtk_image_menu_item_new_from_stock(GTK_STOCK_QUIT, accel_group);
+
+  gtk_widget_add_accelerator(quit, "activate", accel_group, 
+      GDK_q, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE); 
+
+
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(file), filemenu);
+  gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), new);
+  gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), open);
+  gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), sep);
+  gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), quit);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), file);
+  gtk_box_pack_start(GTK_BOX(vbox), menubar, FALSE, FALSE, 3);
+
+  g_signal_connect_swapped(G_OBJECT(window), "destroy",
+      G_CALLBACK(gtk_main_quit), NULL);
+
+  g_signal_connect(G_OBJECT(quit), "activate",
+      G_CALLBACK(gtk_main_quit), NULL);
+
+  gtk_widget_show_all(window);
+
+  gtk_main();
+
+  return 0;
+}
+</pre>
+
+<p>
+The example shows, how to add an image to our menu item. How to set up an 
+accelerator and how to use mnemonics in our GTK+
+applications.
+</p>
+
+<pre class="explanation">accel_group = gtk_accel_group_new();
+gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
+...
+quit = gtk_image_menu_item_new_from_stock(GTK_STOCK_QUIT, accel_group);
+gtk_widget_add_accelerator(quit, "activate", accel_group, 
+    GDK_q, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE); 
+</pre>
+
+<p>
+An accelerator group is a  group of keyboard accelerators, typically attached to a toplevel window. 
+Here we create Ctrl + q keyboard accelerator.
+</p>
+
+<pre class="explanation"> file = gtk_menu_item_new_with_mnemonic("_File");
+</pre>
+
+<p>
+To create a mnemonic, we call the <b class="keyword">gtk_menu_item_new_with_mnemonic()</b>
+function. We select the file menu item by pressing the Alt + F.
+</p>
+
+<pre class="explanation">new = gtk_image_menu_item_new_from_stock(GTK_STOCK_NEW, NULL);
+open = gtk_image_menu_item_new_from_stock(GTK_STOCK_OPEN, NULL);
+</pre>
+
+<p>
+Here we create two image menu items. By setting the second parameter of the 
+function to NULL, we automatically create accelerators.
+We provide an image and text for our menu item from internal GTK+ resources.
+</p>
+
+<pre class="explanation">sep = gtk_separator_menu_item_new();
+</pre>
+
+<p>
+Menu items can be separated by a horizontal separator. This way we can 
+put menu items into some logical groups.
+</p>
+
+
+<br>
+<img src="./Menus and Toolbars in GTK+_files/menu.png" alt="Menu example">
+<div class="figure">Figure: Menu example</div>
+
+
+<h2>Check menu item</h2>
+
+<p>
+A <b class="keyword">GtkCheckMenuItem</b> is a menu item with a check box.
+</p>
+
+<pre class="code">#include &lt;gtk/gtk.h&gt;
+
+
+void toggle_statusbar(GtkWidget *widget, gpointer statusbar) 
+{
+  if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+    gtk_widget_show(statusbar);
+  } else {
+    gtk_widget_hide(statusbar);
+  }
+}
+
+
+int main( int argc, char *argv[])
+{
+
+  GtkWidget *window;
+  GtkWidget *vbox;
+
+  GtkWidget *menubar;
+  GtkWidget *viewmenu;
+  GtkWidget *view;
+  GtkWidget *tog_stat;
+  GtkWidget *statusbar;
+  
+
+  gtk_init(&amp;argc, &amp;argv);
+
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+  gtk_window_set_default_size(GTK_WINDOW(window), 250, 200);
+  gtk_window_set_title(GTK_WINDOW(window), "view statusbar");
+
+  vbox = gtk_vbox_new(FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(window), vbox);
+
+  menubar = gtk_menu_bar_new();
+  viewmenu = gtk_menu_new();
+
+  view = gtk_menu_item_new_with_label("View");
+  tog_stat = gtk_check_menu_item_new_with_label("View Statusbar");
+  gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(tog_stat), TRUE);
+
+  gtk_menu_item_set_submenu(GTK_MENU_ITEM(view), viewmenu);
+  gtk_menu_shell_append(GTK_MENU_SHELL(viewmenu), tog_stat);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), view);
+  gtk_box_pack_start(GTK_BOX(vbox), menubar, FALSE, FALSE, 3);
+
+  statusbar = gtk_statusbar_new();
+  gtk_box_pack_end(GTK_BOX(vbox), statusbar, FALSE, TRUE, 1);
+
+  g_signal_connect_swapped(G_OBJECT(window), "destroy",
+        G_CALLBACK(gtk_main_quit), NULL);
+
+  g_signal_connect(G_OBJECT(tog_stat), "activate", 
+        G_CALLBACK(toggle_statusbar), statusbar);
+
+  gtk_widget_show_all(window);
+
+  gtk_main();
+
+  return 0;
+}
+</pre>
+
+<p>
+In our code example we show a check menu item. If the check box is activated, 
+the statusbar widget is shown. If not, 
+the statusbar is hidden. 
+</p>
+
+<pre class="explanation"> tog_stat = gtk_check_menu_item_new_with_label("View Statusbar");
+</pre>
+
+<p>
+The <b class="keyword">gtk_check_menu_item_new_with_label()</b> function 
+call creates a new check menu item.
+</p>
+
+<pre class="explanation"> if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
+   gtk_widget_show(statusbar);
+ } else {
+   gtk_widget_hide(statusbar);
+ }
+</pre>
+
+<p>
+If the check box in the menu item is activated, we show the statusbar widget. 
+Otherwise the statusbar is hidden. 
+</p>
+
+<br>
+<img src="./Menus and Toolbars in GTK+_files/checkmenuitem.png" alt="Check menu item">
+<div class="figure">Figure: Check menu item</div>
+
+
+<h2>A toolbar</h2>
+
+<p>
+Menus group commands that we can use in application. Toolbars provide a 
+quick access to the most frequently used commands.
+</p>
+
+<pre class="code">#include &lt;gtk/gtk.h&gt;
+
+
+int main( int argc, char *argv[])
+{
+
+  GtkWidget *window;
+  GtkWidget *vbox;
+  
+  GtkWidget *toolbar;
+  GtkToolItem *new;
+  GtkToolItem *open;
+  GtkToolItem *save;
+  GtkToolItem *sep;
+  GtkToolItem *exit;
+
+
+  gtk_init(&amp;argc, &amp;argv);
+
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+  gtk_window_set_default_size(GTK_WINDOW(window), 250, 200);
+  gtk_window_set_title(GTK_WINDOW(window), "toolbar");
+
+  vbox = gtk_vbox_new(FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(window), vbox);
+
+
+  toolbar = gtk_toolbar_new();
+  gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_ICONS);
+
+  gtk_container_set_border_width(GTK_CONTAINER(toolbar), 2);
+
+  new = gtk_tool_button_new_from_stock(GTK_STOCK_NEW);
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), new, -1);
+
+  open = gtk_tool_button_new_from_stock(GTK_STOCK_OPEN);
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), open, -1);
+
+  save = gtk_tool_button_new_from_stock(GTK_STOCK_SAVE);
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), save, -1);
+
+  sep = gtk_separator_tool_item_new();
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), sep, -1); 
+
+  exit = gtk_tool_button_new_from_stock(GTK_STOCK_QUIT);
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), exit, -1);
+
+  gtk_box_pack_start(GTK_BOX(vbox), toolbar, FALSE, FALSE, 5);
+
+  g_signal_connect(G_OBJECT(exit), "clicked", 
+        G_CALLBACK(gtk_main_quit), NULL);
+
+  g_signal_connect_swapped(G_OBJECT(window), "destroy",
+        G_CALLBACK(gtk_main_quit), NULL);
+
+  gtk_widget_show_all(window);
+
+  gtk_main();
+
+  return 0;
+}
+</pre>
+
+<p>
+The code example creates simple toolbar example. 
+</p>
+
+<pre class="explanation">  toolbar = gtk_toolbar_new();
+  gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_ICONS)
+</pre>
+
+<p>
+We create a new toolbar. We specify that the toobar buttons show only icons. No text.
+</p>
+
+<pre class="explanation"> new = gtk_tool_button_new_from_stock(GTK_STOCK_NEW);
+ gtk_toolbar_insert(GTK_TOOLBAR(toolbar), new, -1);
+</pre>
+
+<p>
+We create a toolbar button from stock. The toolbar buttons are inserted 
+into the toolbar by the <b class="keyword">gtk_toolbar_insert()</b> function call. 
+</p>
+
+<pre class="explanation"> sep = gtk_separator_tool_item_new();
+ gtk_toolbar_insert(GTK_TOOLBAR(toolbar), sep, -1); 
+</pre>
+
+<p>
+Here we insert a separator into the toolbar.
+</p>
+
+<br>
+<img src="./Menus and Toolbars in GTK+_files/toolbar.png" alt="Toolbar">
+<div class="figure">Figure: Toolbar</div>
+
+
+<h2>Undo redo</h2>
+
+
+<p>
+The following example demonstrates, how we can inactivate toolbar 
+buttons on the toolbar. It is a common practice in GUI
+programming. For example the save button. If we save all changes 
+of our document to the disk, the save button is inactivated
+in most text editors. This way the application indicates to the user, 
+that all changes are already saved.
+</p>
+
+<pre class="code">#include &lt;gtk/gtk.h&gt;
+#include &lt;string.h&gt;
+
+
+void undo_redo(GtkWidget *widget,  gpointer item) 
+{
+  static int count = 2;
+  const char *name = gtk_widget_get_name(widget);
+
+  if ( strcmp(name, "undo") ) {
+    count++;
+  } else {
+    count--;
+  }
+ 
+  if (count &lt; 0) {
+     gtk_widget_set_sensitive(widget, FALSE);
+     gtk_widget_set_sensitive(item, TRUE);
+  } 
+
+  if (count &gt; 5) {
+     gtk_widget_set_sensitive(widget, FALSE);
+     gtk_widget_set_sensitive(item, TRUE);
+  }
+}
+
+
+int main( int argc, char *argv[])
+{
+
+  GtkWidget *window;
+  GtkWidget *vbox;
+
+  GtkWidget *toolbar;
+  GtkToolItem *undo;
+  GtkToolItem *redo;
+  GtkToolItem *sep;
+  GtkToolItem *exit;
+
+
+  gtk_init(&amp;argc, &amp;argv);
+
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+  gtk_window_set_default_size(GTK_WINDOW(window), 250, 200);
+  gtk_window_set_title(GTK_WINDOW(window), "undoredo");
+
+  vbox = gtk_vbox_new(FALSE, 0);
+  gtk_container_add(GTK_CONTAINER(window), vbox);
+
+
+  toolbar = gtk_toolbar_new();
+  gtk_toolbar_set_style(GTK_TOOLBAR(toolbar), GTK_TOOLBAR_ICONS);
+
+  gtk_container_set_border_width(GTK_CONTAINER(toolbar), 2);
+
+  undo = gtk_tool_button_new_from_stock(GTK_STOCK_UNDO);
+  gtk_widget_set_name(GTK_WIDGET(undo), "undo");
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), undo, -1);
+
+  redo = gtk_tool_button_new_from_stock(GTK_STOCK_REDO);
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), redo, -1);
+
+  sep = gtk_separator_tool_item_new();
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), sep, -1); 
+
+  exit = gtk_tool_button_new_from_stock(GTK_STOCK_QUIT);
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), exit, -1);
+
+  gtk_box_pack_start(GTK_BOX(vbox), toolbar, FALSE, FALSE, 5);
+
+
+  g_signal_connect(G_OBJECT(undo), "clicked", 
+        G_CALLBACK(undo_redo), redo);
+
+  g_signal_connect(G_OBJECT(redo), "clicked", 
+        G_CALLBACK(undo_redo), undo);
+
+  g_signal_connect(G_OBJECT(exit), "clicked", 
+        G_CALLBACK(gtk_main_quit), NULL);
+
+  g_signal_connect_swapped(G_OBJECT(window), "destroy",
+        G_CALLBACK(gtk_main_quit), NULL);
+
+  gtk_widget_show_all(window);
+
+  gtk_main();
+
+  return 0;
+}
+</pre>
+
+<p>
+Our example creates undo and redo buttons from the GTK+ stock resources. 
+After several clicks each of the 
+buttons is inactivated. The buttons are grayed out.
+</p>
+
+<pre class="explanation"> if (count &lt; 0) {
+    gtk_widget_set_sensitive(widget, FALSE);
+    gtk_widget_set_sensitive(item, TRUE);
+ } 
+
+ if (count &gt; 5) {
+    gtk_widget_set_sensitive(widget, FALSE);
+    gtk_widget_set_sensitive(item, TRUE);
+ }
+</pre>
+
+<p>
+The <b class="keyword">gtk_widget_set_sensitive()</b> function call is used 
+to activate/inactivate the 
+toolbar buttons.
+</p>
+
+<br>
+<img src="./Menus and Toolbars in GTK+_files/undoredo.png" alt="Undo redo">
+<div class="figure">Figure: Undo redo</div>
+
+
+<hr class="btm">
+
+<p>
+In this chapter we have talked about menus and toolbars in GTK+.
+</p>
+
+<br>
+<div class="center"> 
+<script type="text/javascript"><!--
+google_ad_client = "pub-9706709751191532";
+/* horizontal */
+google_ad_slot = "1734478269";
+google_ad_width = 468;
+google_ad_height = 60;
+//-->
+</script> 
+<script type="text/javascript" src="./Menus and Toolbars in GTK+_files/show_ads.js"> 
+</script><ins style="display:inline-table;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:468px;background-color:transparent"><ins id="aswift_2_anchor" style="display:block;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:468px;background-color:transparent"><iframe width="468" height="60" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;"></iframe></ins></ins> 
+</div>
+<br>
+
+<div class="botNav, center">
+<span class="botNavItem"><a href="http://zetcode.com/">Home</a></span> ‡ <span class="botNavItem"><a href="http://zetcode.com/tutorials/gtktutorial/">Contents</a></span> ‡ 
+<span class="botNavItem"><a href="http://zetcode.com/tutorials/gtktutorial/menusandtoolbars/#">Top of Page</a></span>
+</div>
+
+
+<div class="footer">
+<div class="signature">
+<a href="http://zetcode.com/">ZetCode</a> last modified December 4, 2010  <span class="copyright">© 2007 - 2012 Jan Bodnar</span>
+</div>
+</div>
+
+</div> <!-- content  -->
+
+</div> <!-- container  -->
+
+
+
+
+
+
+<iframe name="_rlcdn" width="0" height="0" frameborder="0" src="./Menus and Toolbars in GTK+_files/378618.htm"></iframe></body></html>
